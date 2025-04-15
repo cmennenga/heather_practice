@@ -4,36 +4,28 @@
   
 const GIF = 'frog12.gif'
 const COLOR = 'PowderBlue'
-  
-function setup() {
-  nn.get('body').css({ backgroundColor: COLOR})
-  
-  const landscape = nn.width > nn.height
-  
-  // let size = nn.width / 2
-  // if (landscape) {
-    // size = nn.height / 2
-  // } else {
-    // size = nn.width / 2
-  // }
-  
-  const size = landscape ? nn.height / 2 : nn.width / 2
-  
-  
-  const x = nn.width / 2 - size / 2
-  const y = nn.height / 2 - size / 2
-  
+
+function createGif (x, y) {
   nn.create('img')
     .set({ src: GIF })
     .css({
       position: 'absolute',
       left: x,
-      top: y,
-      width: size,
-      imageRendering: 'smooth'
+      top: y
   })
     .addTo('body')
+}
+
+async function setup() {
+  nn.get('body').css({ backgroundColor: COLOR})
   
+  // await tells us to hold until images have loaded 
+  // must be used in a function 
+  // if we have mutliple await then put async infront of function
+  const gif = await nn.loadImage(GIF)
+  const x = nn.width / 2 - gif.width / 2
+  const y = nn.height / 2 - gif.height / 2
+  createGif(x, y)
   
 }
 nn.on('load', setup)
