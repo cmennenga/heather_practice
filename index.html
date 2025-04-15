@@ -5,13 +5,14 @@
 const GIF = 'frog12.gif'
 const COLOR = 'PowderBlue'
 
-function createGif (x, y) {
+async function createGif (x, y) {
+  const gif = await nn.loadImage(GIF)
   nn.create('img')
     .set({ src: GIF })
     .css({
       position: 'absolute',
-      left: x,
-      top: y
+      left: x - gif.width / 2,
+      top: y - gif.height / 2
   })
     .addTo('body')
 }
@@ -19,15 +20,23 @@ function createGif (x, y) {
 async function setup() {
   nn.get('body').css({ backgroundColor: COLOR})
   
-  // await tells us to hold until images have loaded 
-  // must be used in a function 
-  // if we have mutliple await then put async infront of function
   const gif = await nn.loadImage(GIF)
-  const x = nn.width / 2 - gif.width / 2
-  const y = nn.height / 2 - gif.height / 2
-  createGif(x, y)
   
+  const colSize = gif.width / 3
+  const numCols = nn.width / colSize
+  const rowSize = gif.height / 2
+  const numRows = nn.height / rowSize
+  
+  for (let j = 0; j < numRows; j++) {
+    for (let i = 0; i < numCols; i++) {
+      const x = i * colSize + 42
+      const y = j * rowSize
+      createGif(x, y)
+    }
+  }
 }
+  
+
 nn.on('load', setup)
 
 </script>
