@@ -2,13 +2,13 @@
 <script>
 /* global nn */
   
-const GIF = 'frog12.gif'
+const GIF = 'bird_2.gif'
 const COLOR = 'PowderBlue'
 
 async function createGif (x, y) {
   const gif = await nn.loadImage(GIF)
   nn.create('img')
-    .set({ src: GIF })
+    .set({ src: `${GIF}#${Math.random()}` })
     .css({
       position: 'absolute',
       left: x - gif.width / 2,
@@ -22,14 +22,14 @@ async function setup() {
   
   const gif = await nn.loadImage(GIF)
   
-  const colSize = gif.width / 3
+  const colSize = gif.width / 10
   const numCols = nn.width / colSize
-  const rowSize = gif.height / 2
+  const rowSize = gif.height / 5
   const numRows = nn.height / rowSize
   
   for (let j = 0; j < numRows; j++) {
     for (let i = 0; i < numCols; i++) {
-      const x = i * colSize + 42
+      const x = i * colSize
       const y = j * rowSize
       createGif(x, y)
     }
